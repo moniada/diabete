@@ -1,0 +1,202 @@
+<!-- En-tête -->
+<div class="breadcrumb-section breadcrumb-bg" style="z-index: revert; background: linear-gradient(293.2deg, #1266D6 15.63%, #0D50A8 91.91%);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 offset-lg-2 text-center">
+          <div class="breadcrumb-text">
+            <p style="color: #FFD700; font-size: 1.3rem; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">حاسبة السكريات</p>
+            <h1 style="color: white; font-size: 2.7rem; margin-top: 10px; text-shadow: 0 4px 8px rgba(0,0,0,0.2); font-family: 'Tajawal', sans-serif;">احسب وجبتك</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Contenu principal -->
+  <div class="food-calculator-container" dir="rtl" style="background: #F5F9FF; padding: 40px 20px; font-family: 'Tajawal', sans-serif;">
+    <div class="container">
+      <!-- Introduction -->
+      <div class="calculator-intro" style="text-align: right; margin-bottom: 30px;">
+        <p style="font-size: 1.2rem; color: #555;">ابحث عن الأطعمة وأضفها لحساب كمية السكر</p>
+        <p style="font-size: 0.9rem; color: #777;">احسابات تقديرية تختلف حسب مقادير و طريقة الطبخ</p>
+      </div>
+  
+      <div class="row">
+        <!-- Colonne gauche - Calculatrice -->
+        <div class="col-md-6">
+          <div class="calculator-card" style="background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%;">
+            <!-- Barre de recherche -->
+            <div class="search-bara" style="position: relative; margin-bottom: 20px;">
+              <input 
+                type="text"  
+                [formControl]="searchControl" 
+                placeholder="ابحث عن طعام..."
+                style="width: 100%; padding: 12px 20px; border: 2px solid #E0E0E0; border-radius: 30px;"
+              >
+              <i class="fas fa-search" style="position: absolute; left: 20px; top: 14px; color: #777;"></i>
+              
+              <!-- Résultats de recherche -->
+              <div *ngIf="showSearchResults && searchResults.length > 0" 
+                   style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #E0E0E0; border-radius: 10px; z-index: 100; max-height: 300px; overflow-y: auto;">
+                <div *ngFor="let food of searchResults" 
+                     (click)="addFood(food); searchControl.reset(); showSearchResults = false;"
+                     style="padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #F0F0F0; display: flex; justify-content: space-between; align-items: center;">
+                  <span>{{ food.name }}</span>
+                  <span style="color: #1266D6; font-weight: bold;">{{ food.sugarPer100g }}غ/100غ</span>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Catégories -->
+            <div class="categories" style="margin-bottom: 25px;">
+              <h4 style="color: #0D50A8; margin-bottom: 15px;">تصفح حسب الفئة</h4>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button *ngFor="let category of categories" 
+                        (click)="selectCategory(category)"
+                        [style.background]="activeCategory === category ? '#0D50A8' : '#E0E0E0'"
+                        [style.color]="activeCategory === category ? 'white' : '#333'"
+                        style="border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">
+                  {{ category }}
+                </button>
+              </div>
+            </div>
+  
+            <!-- Aliments par catégorie -->
+            <div *ngIf="activeCategory" class="category-foods" style="margin-bottom: 25px;">
+              <div *ngFor="let food of categoryFoods" 
+                   style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #F0F0F0;">
+                <span>{{ food.name }}</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="color: #1266D6; font-weight: bold;">{{ food.sugarPer100g }}غ/100غ</span>
+                  <button (click)="addFood(food)" style="background: #FFA500; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Total sucre -->
+            <div class="sugar-summary" style="margin: 25px 0; text-align: center; background: #EFF6FF; padding: 15px; border-radius: 10px;">
+              <h3 style="color: #0D50A8;">إجمالي السكريات</h3>
+              <div style="font-size: 2rem; font-weight: bold; color: #1266D6;">{{ totalSugar.toFixed(2) }} غ</div>
+            </div>
+  
+            <!-- Liste des aliments sélectionnés -->
+            <div class="selected-foods">
+              <h4 style="color: #0D50A8; margin-bottom: 15px;">الأطعمة المضافة</h4>
+              
+              <div *ngIf="selectedFoods.length === 0" style="text-align: center; color: #777; padding: 20px;">
+                لم تقم بإضافة أي أطعمة بعد
+              </div>
+              
+              <div *ngFor="let item of selectedFoods; let i = index" 
+                   style="background: #FAFAFA; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <span style="font-weight: bold;">{{ item.food.name }}</span>
+                  <button (click)="removeFood(i)" style="background: #F44336; color: white; border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                    ×
+                  </button>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span>الكمية:</span>
+                    <input type="number" 
+                           [value]="item.quantity" 
+                           (change)="updateQuantity(item, $event)"
+                           min="1"
+                           style="width: 80px; padding: 5px 10px; border: 1px solid #E0E0E0; border-radius: 5px;">
+                    <span>غرام</span>
+                  </div>
+                  <span style="color: #1266D6; font-weight: bold;">{{ item.sugar.toFixed(2) }} غ سكر</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Colonne droite - Informations -->
+        <div class="col-md-6">
+          <div class="info-card" style="background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: 100%;">
+            <h2 style="color: #0D50A8; border-bottom: 2px solid #FFA500; padding-bottom: 10px; display: inline-block;">المفضلة</h2>
+            
+            <div *ngIf="favorites.length === 0" style="text-align: center; color: #777; padding: 20px;">
+              لا توجد أطعمة في المفضلة
+            </div>
+            
+            <div *ngFor="let food of favorites" 
+                 style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F0F0F0;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas {{ food.icon }}" style="color: #FFA500;"></i>
+                <span>{{ food.name }}</span>
+              </div>
+              <button (click)="addFood(food)" style="background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                أضف
+              </button>
+            </div>
+  
+            <h2 style="color: #0D50A8; border-bottom: 2px solid #FFA500; padding-bottom: 10px; display: inline-block; margin-top: 30px;">معلومات غذائية</h2>
+            
+            <div class="food-category" style="margin-bottom: 25px;">
+              <h3 style="color: #1266D6; display: flex; align-items: center;">
+                <i class="fas fa-wine-bottle" style="color: #FFA500; margin-left: 10px;"></i>
+                المشروبات الغازية
+              </h3>
+              <div style="background: #FFF5F5; padding: 15px; border-radius: 10px; margin-top: 10px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span>من السكريات:</span>
+                  <span style="font-weight: bold; color: #F44336;">100%</span>
+                </div>
+                <p style="margin-top: 10px; color: #555;">
+                  <i class="fas fa-info-circle" style="color: #FFA500; margin-left: 5px;"></i>
+                  أمثلة: المشروبات الغازية، 1 مكعب سكر = 5 غرام
+                </p>
+              </div>
+            </div>
+  
+            <div class="food-category" style="margin-bottom: 25px;">
+              <h3 style="color: #1266D6; display: flex; align-items: center;">
+                <i class="fas fa-apple-alt" style="color: #FFA500; margin-left: 10px;"></i>
+                الفواكه الطازجة
+              </h3>
+              <div style="background: #F5F9FF; padding: 15px; border-radius: 10px; margin-top: 10px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span>من السكريات:</span>
+                  <span style="font-weight: bold; color: #4CAF50;">15%</span>
+                </div>
+                <p style="margin-top: 10px; color: #555;">
+                  <i class="fas fa-info-circle" style="color: #FFA500; margin-left: 5px;"></i>
+                  أمثلة: الموز، التفاح، الإجاص
+                </p>
+              </div>
+            </div>
+  
+            <div class="food-category" style="margin-bottom: 25px;">
+              <h3 style="color: #1266D6; display: flex; align-items: center;">
+                <i class="fas fa-bread-slice" style="color: #FFA500; margin-left: 10px;"></i>
+                النشويات
+              </h3>
+              <div style="background: #FFF9F2; padding: 15px; border-radius: 10px; margin-top: 10px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span>من السكريات:</span>
+                  <span style="font-weight: bold; color: #FF9800;">20%</span>
+                </div>
+                <p style="margin-top: 10px; color: #555;">
+                  <i class="fas fa-info-circle" style="color: #FFA500; margin-left: 5px;"></i>
+                  أمثلة: البطاطا، الأرز، المعكرونة
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Bouton de retour -->
+      <div class="text-center" style="margin-top: 40px;">
+        <a href="/learn" class="return-btn" style="background: linear-gradient(135deg, #0D50A8, #1266D6); color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; display: inline-block;">
+          <i class="fas fa-arrow-left" style="margin-left: 10px;"></i>
+          العودة إلى التعلم
+        </a>
+      </div>
+    </div>
+  </div>

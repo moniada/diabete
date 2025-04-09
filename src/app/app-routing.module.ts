@@ -14,6 +14,10 @@ import { SugarChallengeComponent } from './sugar-challenge/sugar-challenge.compo
 import { GuessSugarComponent } from './guess-sugar/guess-sugar.component';
 import { BikeRaceComponent } from './bike-race/bike-race.component';
 import { MazeGameComponent } from './maze-game/maze-game.component';
+import { LearnComponent } from './learn/learn.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { FoodCalculatorComponent } from './food-calculator/food-calculator.component';
 
  const routes: Routes = [
   { path: '', component: AccueilComponent },
@@ -33,6 +37,10 @@ import { MazeGameComponent } from './maze-game/maze-game.component';
 
   { path: 'maze', component: MazeGameComponent },
 
+  { path: 'learn', component: LearnComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'foodCalculator', component: FoodCalculatorComponent },
 
   { path: '**', redirectTo: '' } // Redirection pour les routes inconnues
 ];

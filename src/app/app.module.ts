@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -33,7 +33,11 @@ import { GuessSugarComponent } from './guess-sugar/guess-sugar.component';
 import { MatSelectModule } from '@angular/material/select';
 import { HealthMazeComponent } from './health-maze/health-maze.component';
 import { BikeRaceComponent } from './bike-race/bike-race.component';
-import { MazeGameComponent } from './maze-game/maze-game.component'; // <-- Ajouter MatSelectModule
+import { MazeGameComponent } from './maze-game/maze-game.component';
+import { LearnComponent } from './learn/learn.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { FoodCalculatorComponent } from './food-calculator/food-calculator.component'; // <-- Ajouter MatSelectModule
 
 @NgModule({
   declarations: [
@@ -56,6 +60,10 @@ import { MazeGameComponent } from './maze-game/maze-game.component'; // <-- Ajou
     HealthMazeComponent,
     BikeRaceComponent,
     MazeGameComponent,
+    LearnComponent,
+    AboutComponent,
+    ContactComponent,
+    FoodCalculatorComponent,
   ],
   imports: [
     // Modules Angular de base
@@ -63,7 +71,7 @@ import { MazeGameComponent } from './maze-game/maze-game.component'; // <-- Ajou
     FormsModule,
     CommonModule,
     BrowserAnimationsModule,
-
+    ReactiveFormsModule,
     // Modules Angular Material
     MatCardModule,        // Pour <mat-card>
     MatButtonModule,      // Pour <button mat-button>

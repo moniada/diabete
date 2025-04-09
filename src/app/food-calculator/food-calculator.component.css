@@ -1,0 +1,89 @@
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Styles de base */
+  .food-calculator-container {
+    min-height: calc(100vh - 150px);
+  }
+  
+  .calculator-card, .info-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .calculator-card:hover, .info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+  }
+  
+  .search-bara input:focus {
+    outline: none;
+    border-color: #0D50A8 !important;
+    box-shadow: 0 0 0 2px rgba(13,80,168,0.2);
+  }
+  
+  .search-results {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+  }
+  
+  .search-results div:hover {
+    background-color: #F5F9FF;
+  }
+  
+  .category-btn {
+    transition: all 0.3s ease;
+  }
+  
+  .category-btn:hover {
+    transform: translateY(-2px);
+  }
+  
+  .add-btn, .remove-btn {
+    transition: all 0.2s ease;
+  }
+  
+  .add-btn:hover {
+    background-color: #FF8C00 !important;
+    transform: scale(1.1);
+  }
+  
+  .remove-btn:hover {
+    background-color: #D32F2F !important;
+    transform: scale(1.1);
+  }
+  
+  .quantity-input:focus {
+    border-color: #0D50A8 !important;
+  }
+  
+  .return-btn {
+    transition: all 0.3s ease;
+  }
+  
+  .return-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(13,80,168,0.3);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .food-calculator-container {
+      padding: 30px 15px !important;
+    }
+    
+    .calculator-card, .info-card {
+      margin-bottom: 20px;
+    }
+    
+    .categories {
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    
+    .category-btn {
+      flex-shrink: 0;
+    }
+  }
