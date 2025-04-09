@@ -1,0 +1,165 @@
+/* Styles de base */
+body {
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+}
+
+/* Styles des cellules du labyrinthe */
+.cell {
+  transition: all 0.3s ease;
+}
+
+.cell.wall {
+  background-color: #2c3e50;
+}
+
+.cell.player {
+  background-color: #4CAF50;
+  animation: pulse 0.5s infinite alternate;
+}
+
+.cell.goal {
+  background-color: #FFD700;
+  animation: glow 1.5s infinite alternate;
+}
+
+.cell.question {
+  background-color: #FF8C00;
+}
+
+.cell.red {
+  background-color: #FF5252;
+  animation: warning 0.8s infinite alternate;
+}
+
+/* Animations */
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 5px #FFD700; }
+  to { box-shadow: 0 0 20px #FFD700; }
+}
+
+@keyframes warning {
+  from { opacity: 1; }
+  to { opacity: 0.7; }
+}
+
+/* Boutons options */
+.options button:hover {
+  background-color: #0D50A8 !important;
+  color: white !important;
+  transform: translateX(-5px);
+}
+
+/* Animation des statistiques */
+.animated-stat {
+  transition: all 0.3s ease;
+}
+
+/* Contrôles mobiles */
+@media (max-width: 768px) {
+  .game-wrapper {
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .mobile-controls {
+    display: block !important;
+  }
+  
+  .cell {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+/* Effet de survol pour les éléments interactifs */
+.stat-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+/* Animation pour la popup */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-modal-content {
+  animation: modalFadeIn 0.3s ease-out;
+}
+/* Styles pour la popup modale */
+.question-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.question-modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  text-align: right;
+  direction: rtl;
+}
+
+.question-modal h3 {
+  color: #0D50A8;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.question-modal-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.question-modal-options button {
+  background: #F5F9FF;
+  border: 2px solid #0D50A8;
+  color: #0D50A8;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.question-modal-options button:hover {
+  background: #0D50A8;
+  color: white;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+}

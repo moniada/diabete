@@ -1,0 +1,39 @@
+<div class="quiz-page">
+    <!-- En-tête -->
+    <header class="header">
+      <h1>Quiz sur le diabète</h1>
+      <p>Teste tes connaissances et apprends en t'amusant !</p>
+    </header>
+  
+    <!-- Section du quiz -->
+    <section class="quiz-container" *ngIf="!quizTermine">
+      <div class="question">
+        <h2>{{ questions[currentQuestionIndex].question }}</h2>
+      </div>
+  
+      <div class="reponses">
+        <button
+          *ngFor="let reponse of questions[currentQuestionIndex].reponses"
+          (click)="verifierReponse(reponse)"
+          [class.correct]="reponseCorrecte && reponse === bonneReponse"
+          [class.incorrect]="reponseIncorrecte && reponse !== bonneReponse"
+          [disabled]="reponseSoumise"
+        >
+          {{ reponse }}
+        </button>
+      </div>
+  
+      <div class="feedback" *ngIf="reponseSoumise">
+        <p *ngIf="reponseCorrecte">Bravo ! C'est la bonne réponse. 🎉</p>
+        <p *ngIf="reponseIncorrecte">Oops ! La bonne réponse était : {{ bonneReponse }}.</p>
+        <button (click)="questionSuivante()">Question suivante</button>
+      </div>
+    </section>
+  
+    <!-- Résultat final -->
+    <section class="resultat" *ngIf="quizTermine">
+      <h2>Quiz terminé !</h2>
+      <p>Ton score est de {{ score }} / {{ questions.length }}.</p>
+      <button (click)="reinitialiserQuiz()">Recommencer</button>
+    </section>
+  </div>

@@ -1,0 +1,79 @@
+/* Style général */
+.jeux-page {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  /* En-tête */
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    color: #4caf50;
+    margin-bottom: 10px;
+  }
+  
+  .header p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  /* Grille de jeux */
+  .jeux-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .jeu-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .jeu-card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .jeu-icon {
+    width: 80px;
+    margin-bottom: 15px;
+  }
+  
+  .jeu-card h2 {
+    font-size: 1.5rem;
+    color: #4caf50;
+    margin-bottom: 10px;
+  }
+  
+  .jeu-card p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    background-color: #ff6f61;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #e65a50;
+  }

@@ -1,0 +1,134 @@
+<div class="breadcrumb-section breadcrumb-bg" style="background: linear-gradient(135deg, #0D50A8 0%, #1266D6 100%);z-index: inherit; position: relative; overflow: hidden;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="breadcrumb-text">
+          <p style="color: #FFA500; font-size: 1.2rem; font-weight: bold;">العب وتعلم</p>
+          <h1 style="color: white; font-size: 2.5rem; margin-top: 10px;">تحدي قياس السكر</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <img decoding="async" class="full-width" style="position: absolute;bottom: -8px;" src="https://www.dinolingo.com/wp-content/uploads/2024/11/section_1-top.svg" alt="forme blanche">
+</div>
+
+<div class="game-world" style="background: linear-gradient(160deg, #EFF6FF 0%, #D6E4FF 100%); min-height: calc(100vh - 80px); padding: 30px 0;">
+  <div class="game-background" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; overflow: hidden;">
+    <img src="https://www.dinolingo.com/wp-content/uploads/2024/12/cloud-2.png" alt="Cloud" style="position: absolute; top: 10%; right: 5%; width: 80px; animation: float 6s ease-in-out infinite; opacity: 0.8;">
+    <img src="https://www.dinolingo.com/wp-content/uploads/2024/12/cloud-2.png" alt="Cloud" style="position: absolute; bottom: 15%; left: 8%; width: 100px; animation: float 8s ease-in-out infinite; opacity: 0.6;">
+  </div>
+  
+  <div class="container" style="position: relative; z-index: 1;">
+    <div class="game-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 15px 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(13, 80, 168, 0.1); border-left: 5px solid #FF8C00;">
+      <div class="game-title">
+        <h1 style="margin: 0; color: #0D50A8; font-size: 1.8rem; font-weight: bold;">مغامرة السكري الصحية</h1>
+        <p style="margin: 5px 0 0; color: #666; font-size: 1rem;">ساعد البطل الصغير في تصنيف الطعام!</p>
+      </div>
+      <div class="score-display" style="background: linear-gradient(135deg, #FF8C00, #FFA500); padding: 10px 20px; border-radius: 30px; color: white; display: flex; align-items: center; box-shadow: 0 3px 15px rgba(255, 140, 0, 0.3);">
+        <div class="score-stars" style="margin-left: 10px;">
+          <i class="fas fa-star" style="color: white; text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); margin: 0 2px;" *ngFor="let star of getStars()"></i>
+        </div>
+        <span class="score-value" style="font-weight: bold; font-size: 1.2rem;">{{score}} نقاط</span>
+      </div>
+    </div>
+
+    <div class="game-area" style="display: flex; gap: 20px;">
+      <!-- Aliments disponibles -->
+      <div class="foods-available" style="flex: 2; background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 25px rgba(13, 80, 168, 0.1); border-top: 3px solid #0D50A8;">
+        <h2 style="color: #0D50A8; margin-top: 0; display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+          <i class="fas fa-search" style="color: #FF8C00;"></i> الأطعمة المتاحة
+        </h2>
+        <div cdkDropList #availableList="cdkDropList"
+             [cdkDropListData]="items"
+             [cdkDropListConnectedTo]="[validList, invalidList]"
+             class="food-grid" 
+             style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; padding: 15px;"
+             (cdkDropListDropped)="drop($event)">
+          <div class="food-card" 
+               style="background: white; border-radius: 15px; padding: 15px; text-align: center; cursor: grab; box-shadow: 0 3px 15px rgba(13, 80, 168, 0.1); transition: all 0.3s ease; position: relative; overflow: hidden; border: 2px solid #EFF6FF;" 
+               *ngFor="let item of items" 
+               cdkDrag 
+               [cdkDragData]="item">
+            <div class="food-badge" style="position: absolute; top: -10px; left: -10px; width: 30px; height: 30px; background: #FF8C00; border-radius: 50%; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);"></div>
+            <img [src]="item.image" [alt]="item.name" style="width: 70px; height: 70px; object-fit: contain; margin-bottom: 10px; transition: all 0.3s ease;">
+            <span style="display: block; font-weight: bold; color: #2c3e50; font-size: 0.9rem;">{{item.name}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paniers de tri -->
+      <div class="sorting-baskets" style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+        <!-- Panier sain -->
+        <div class="basket healthy-basket" style="flex: 1; border-radius: 15px; padding: 20px; box-shadow: 0 5px 25px rgba(13, 80, 168, 0.1); background: linear-gradient(135deg, #56ab2f, #a8e063);">
+          <div class="basket-header" style="display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-bottom: 15px;">
+            <i class="fas fa-heartbeat" style="color: white; font-size: 1.5rem;"></i>
+            <h3 style="margin: 0; color: white; font-size: 1.3rem;">الأطعمة الصحية</h3>
+          </div>
+          <div cdkDropList #validList="cdkDropList"
+               id="validList"
+               [cdkDropListData]="validItems"
+               [cdkDropListConnectedTo]="[availableList, invalidList]"
+               class="basket-content" 
+               style="background: rgba(255, 255, 255, 0.3); border-radius: 15px; padding: 15px; min-height: 150px; display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start;"
+               (cdkDropListDropped)="drop($event)">
+            <div *ngFor="let item of validItems" class="food-item" style="width: 60px; height: 60px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+              <img [src]="item.image" [alt]="item.name" style="width: 50px; height: 50px; object-fit: contain;">
+            </div>
+            <div class="empty-hint" style="width: 100%; text-align: center; color: rgba(255, 255, 255, 0.8); padding: 20px;" *ngIf="validItems.length === 0">
+              <i class="fas fa-arrow-down" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+              <p style="margin: 0; font-weight: bold;">اسحب الأطعمة الصحية هنا</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panier sucré -->
+        <div class="basket sugary-basket" style="flex: 1; border-radius: 15px; padding: 20px; box-shadow: 0 5px 25px rgba(13, 80, 168, 0.1); background: linear-gradient(135deg, #ff512f, #dd2476);">
+          <div class="basket-header" style="display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-bottom: 15px;">
+            <i class="fas fa-candy-cane" style="color: white; font-size: 1.5rem;"></i>
+            <h3 style="margin: 0; color: white; font-size: 1.3rem;">الأطعمة السكرية</h3>
+          </div>
+          <div cdkDropList #invalidList="cdkDropList"
+               id="invalidList"
+               [cdkDropListData]="invalidItems"
+               [cdkDropListConnectedTo]="[availableList, validList]"
+               class="basket-content" 
+               style="background: rgba(255, 255, 255, 0.3); border-radius: 15px; padding: 15px; min-height: 150px; display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start;"
+               (cdkDropListDropped)="drop($event)">
+            <div *ngFor="let item of invalidItems" class="food-item" style="width: 60px; height: 60px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+              <img [src]="item.image" [alt]="item.name" style="width: 50px; height: 50px; object-fit: contain;">
+            </div>
+            <div class="empty-hint" style="width: 100%; text-align: center; color: rgba(255, 255, 255, 0.8); padding: 20px;" *ngIf="invalidItems.length === 0">
+              <i class="fas fa-arrow-down" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+              <p style="margin: 0; font-weight: bold;">اسحب الأطعمة السكرية هنا</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback visuel -->
+    <div class="game-feedback" *ngIf="showFeedback" [class.correct]="isCorrect" [class.wrong]="!isCorrect" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 100; animation: bounceIn 0.5s;">
+      <div class="feedback-bubble" style="background: white; padding: 15px 25px; border-radius: 50px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); display: flex; align-items: center; gap: 15px; font-weight: bold;">
+        {{feedbackMessage}}
+        <span class="feedback-emoji" style="font-size: 1.5rem;">{{isCorrect ? '😊' : '😟'}}</span>
+      </div>
+    </div>
+
+    <!-- Personnage mascotte -->
+    <div class="game-character" [class.happy]="isCorrect && showFeedback" style="position: fixed; bottom: 20px; left: 20px; width: 120px; transition: all 0.3s ease; z-index: 10;">
+      <img src="assets/img/game-character.png" alt="شخصية اللعبة" style="width: 100%; filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));">
+    </div>
+
+    <!-- Message de fin de jeu -->
+    <div class="game-completed" *ngIf="gameCompleted" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; animation: fadeIn 0.5s;">
+      <div class="game-completed-content" style="background: white; padding: 30px; border-radius: 15px; text-align: center; max-width: 500px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);">
+        <h2 style="color: #0D50A8; margin-top: 0;">تهانينا!</h2>
+        <p style="font-size: 1.2rem;">لقد أكملت التحدي بنجاح</p>
+        <p style="font-size: 1.5rem; font-weight: bold; color: #FF8C00;">النقاط: {{score}}</p>
+        <button (click)="resetGame()" style="background: linear-gradient(135deg, #0D50A8, #1266D6); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 3px 15px rgba(13, 80, 168, 0.3);">
+          اللعب مرة أخرى
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

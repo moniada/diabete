@@ -1,0 +1,132 @@
+/* Style général */
+.quiz-page {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* En-tête */
+  .header h1 {
+    font-size: 2.5rem;
+    color: #4caf50;
+    margin-bottom: 10px;
+  }
+  
+  .header p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  /* Section du quiz */
+  .quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .question h2 {
+    font-size: 1.5rem;
+    color: #4caf50;
+    margin-bottom: 20px;
+  }
+  
+  .reponses {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .reponses button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .reponses button:hover:not([disabled]) {
+    background-color: #45a049;
+  }
+  
+  .reponses button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .reponses button.correct {
+    background-color: #8bc34a;
+  }
+  
+  .reponses button.incorrect {
+    background-color: #ff6f61;
+  }
+  
+  .feedback {
+    margin-top: 20px;
+  }
+  
+  .feedback p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+  
+  .feedback button {
+    background-color: #ff6f61;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .feedback button:hover {
+    background-color: #e65a50;
+  }
+  
+  /* Résultat final */
+  .resultat {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .resultat h2 {
+    font-size: 2rem;
+    color: #4caf50;
+    margin-bottom: 10px;
+  }
+  
+  .resultat p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .resultat button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .resultat button:hover {
+    background-color: #45a049;
+  }

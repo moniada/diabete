@@ -1,0 +1,186 @@
+/* 🌟 Structure principale */
+.game-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  
+  margin: auto;
+  padding: 20px;
+  background: linear-gradient(293.2deg, #1266D6 15.63%, #0D50A8 91.91%); /* Dégradé entre l'orange et le bleu */
+  
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 🎮 Partie gauche : Canvas + Statistiques */
+.game-left {
+  flex: 7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+canvas {
+  border: 3px solid #0D50A8;
+  background-color: #87ceeb;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  height: auto;
+}
+
+/* 📊 Stats du jeu */
+.stats {
+  margin-top: 10px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+}
+
+.stats p {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #0D50A8; /* Bleu foncé pour le texte */
+}
+
+.animated-stat {
+  font-size: 22px;
+  font-weight: bold;
+  color: #F28123; /* Orange pour les chiffres animés */
+  animation: pulse 1.5s infinite;
+}
+
+.score {
+  color: #1266D6; /* Bleu clair pour le score */
+}
+
+/* Animation des stats */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* 📌 Partie droite : Questions + Infos */
+.game-right {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 📌 Questions */
+.question-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 2px solid #1266D6;
+}
+
+.question-container h3 {
+  font-size: 20px;
+  color: #0D50A8; /* Bleu foncé pour le titre */
+  margin-bottom: 15px;
+}
+
+/* 🎭 Boutons réponse */
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.options button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #F28123; /* Orange pour les boutons */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.options button:hover {
+  background: #D9731A; /* Un peu plus foncé pour l'hover */
+  transform: scale(1.05);
+}
+
+/* 📜 Instructions */
+.instructions,
+.rewards {
+  background: #fff3cd;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+}
+
+.instructions h3,
+.rewards h3 {
+  font-size: 18px;
+  color: #856404;
+  margin-bottom: 10px;
+}
+
+.instructions ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.instructions li {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* 🏅 Récompenses */
+.rewards {
+  background: #d4edda;
+}
+
+.rewards h3 {
+  color: #155724;
+}
+
+.rewards p {
+  font-size: 14px;
+  color: #333;
+}
+
+/* 🔹 Responsive (Tablette et mobile) */
+@media (max-width: 768px) {
+  .game-wrapper {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  .game-left, .game-right {
+    width: 100%;
+    padding: 15px;
+  }
+  canvas {
+    width: 100%;
+  }
+  .options {
+    flex-direction: column;
+  }
+}

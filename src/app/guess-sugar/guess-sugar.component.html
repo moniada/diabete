@@ -1,0 +1,135 @@
+<div class="breadcrumb-section breadcrumb-bg" style="z-index: revert; background: linear-gradient(293.2deg, #1266D6 15.63%, #0D50A8 91.91%);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="breadcrumb-text">
+          <div class="" style="z-index: revert; background: linear-gradient(293.2deg, #1266D6 15.63%, #0D50A8 91.91%);">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                  <div class="breadcrumb-text">
+                    <p style="color: #FFD700; font-size: 1.3rem; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">العب وتعلم</p>
+                    <h1 style="color: white; font-size: 2.5rem; margin-top: 10px; text-shadow: 0 4px 8px rgba(0,0,0,0.2); font-family: 'Tajawal', sans-serif;">سباق الدراجات التفاعلي</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="game-container" style="background: #F5F9FF; min-height: 80vh;">
+  <div class="container">
+    <div class="row">
+      <!-- Colonne Personnage -->
+      <div class="col-md-5">
+        <div class="character-card" style="background: white; border-radius: 20px; box-shadow: 0 5px 15px rgba(13,80,168,0.1); height: 100%; border-top: 4px solid #FFA500;">
+          <div *ngIf="!gameService.isPlaying" class="text-center py-4">
+            <h3 style="color: #0D50A8;">مرحباً صديقي!</h3>
+            <p style="color: #555;">ساعد هذه الشخصيات في معرفة مستوى السكر في دمهم</p>
+            <img src="assets/images/kids-playing.png" style="width: 80%; max-width: 250px;" alt="أطفال يلعبون">
+          </div>
+          
+          <div *ngIf="gameService.currentCharacter" class="text-center p-3">
+            <img [src]="gameService.currentCharacter.imageUrl" 
+                 [alt]="gameService.currentCharacter.name"
+                 style="width: 60%; max-height: 200px; object-fit: contain;">
+            
+            <div style="background: #EFF6FF; border-radius: 15px; padding: 15px; margin-top: 20px;">
+              <h4 style="color: #0D50A8;">{{ gameService.currentCharacter.name }}</h4>
+              <div style="display: flex; justify-content: center; gap: 15px; margin-top: 10px;">
+                <span style="background: #E3F2FD; padding: 5px 15px; border-radius: 20px;">
+                  عمره: {{ gameService.currentCharacter.age }}
+                </span>
+                <span style="background: #FFEDD5; padding: 5px 15px; border-radius: 20px; color: #FFA500;">
+                  {{ gameService.currentCharacter.mood }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Colonne Jeu -->
+      <div class="col-md-7">
+        <div class="game-card" style="background: white; border-radius: 20px; box-shadow: 0 5px 15px rgba(13,80,168,0.1); height: 100%;">
+          <!-- Score -->
+          <div style="background: linear-gradient(135deg, #FFA500, #FFC107); color: white; padding: 12px 25px; border-radius: 30px; display: inline-block; margin: 20px;">
+            <i class="fas fa-star" style="margin-left: 8px;"></i>
+            النقاط: {{ gameService.score }}
+          </div>
+          
+          <!-- Démarrage -->
+          <div *ngIf="!gameService.isPlaying" class="text-center" style="padding: 20px;">
+            <button (click)="startGame()" 
+                    style="background: linear-gradient(135deg, #0D50A8, #1266D6); color: white; border: none; padding: 12px 30px; border-radius: 30px; font-size: 1.2rem; cursor: pointer;">
+              ابدأ اللعب <i class="fas fa-play" style="margin-left: 10px;"></i>
+            </button>
+            
+            <div style="margin-top: 30px; text-align: right; padding: 0 20px;">
+              <h4 style="color: #0D50A8; border-bottom: 2px solid #FFA500; display: inline-block; padding-bottom: 5px;">
+                كيف تلعب؟
+              </h4>
+              <ul style="padding-right: 20px; color: #555;">
+                <li style="margin-bottom: 10px;">اختر مستوى السكر بعد كل تحدٍ</li>
+                <li style="margin-bottom: 10px;">احصل على نقاط لكل إجابة صحيحة</li>
+                <li>تعلم عن تأثير الأكل والرياضة على السكر</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Défi -->
+          <div *ngIf="gameService.isPlaying && gameService.currentChallenge" style="padding: 20px;">
+            <div style="background: #FFF8F0; border-radius: 15px; padding: 20px; border-right: 4px solid #FFA500;">
+              <h4 style="color: #0D50A8;">
+                <i class="fas fa-question-circle" style="color: #FFA500; margin-left: 10px;"></i>
+                التحدي:
+              </h4>
+              <p style="font-size: 1.2rem; color: #555;">
+                {{ gameService.currentChallenge.description }}
+                <span style="font-size: 1.5rem;">{{ gameService.currentChallenge.emoji }}</span>
+              </p>
+              
+              <div style="margin-top: 30px;">
+                <label style="display: block; margin-bottom: 10px; color: #0D50A8; font-weight: bold;">
+                  اختر مستوى السكر المتوقع:
+                </label>
+                
+                <div style="display: flex; align-items: center; gap: 15px;">
+                  <input type="range" min="50" max="200" [(ngModel)]="gameService.userGuess" 
+                         style="flex: 1; accent-color: #0D50A8;">
+                  <input type="number" [(ngModel)]="gameService.userGuess" 
+                         style="width: 80px; padding: 10px; border: 2px solid #0D50A8; border-radius: 8px; text-align: center;">
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 5px; color: #666;">
+                  <span>منخفض</span>
+                  <span>طبيعي</span>
+                  <span>مرتفع</span>
+                </div>
+                
+                <button (click)="submitGuess()" 
+                        style="background: linear-gradient(135deg, #0D50A8, #1266D6); color: white; border: none; padding: 12px; border-radius: 8px; margin-top: 25px; width: 100%; cursor: pointer; font-size: 1.1rem;">
+                  تحقق من الإجابة <i class="fas fa-check" style="margin-left: 10px;"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Feedback -->
+          <div *ngIf="feedbackMessage" 
+               [style.background]="isCorrect ? '#E8F5E9' : '#FFEBEE'"
+               [style.borderColor]="isCorrect ? '#4CAF50' : '#F44336'"
+               style="margin: 20px; padding: 15px; border-radius: 10px; border-right: 4px solid; text-align: center;">
+            <i [class]="isCorrect ? 'fas fa-check-circle' : 'fas fa-times-circle'" 
+               [style.color]="isCorrect ? '#4CAF50' : '#F44336'" 
+               style="font-size: 1.5rem;"></i>
+            <p style="margin: 10px 0; font-weight: bold;">{{ feedbackMessage }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

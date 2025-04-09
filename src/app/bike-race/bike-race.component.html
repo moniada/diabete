@@ -1,0 +1,137 @@
+<div class="breadcrumb-section breadcrumb-bg" style="z-index: revert; background: linear-gradient(293.2deg, #1266D6 15.63%, #0D50A8 91.91%);">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="breadcrumb-text">
+          <h1 style="color: white; font-size: 2.5rem;">تحدي قياس السكر</h1>
+          <p style="color: #FFA500; font-size: 1.2rem;">لعبة تعليمية ممتعة للأطفال</p>  </div>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<div class="game-wrapper">
+  <!-- Partie gauche : Canvas du jeu -->
+  <div class="game-left">
+    <canvas #gameCanvas width="600" height="350" style="border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.2);"></canvas>
+    
+    <!-- Barre de progression -->
+    <div class="progress-container" style="width: 100%; margin-top: 15px;">
+      <div class="progress-bar" [style.width.%]="progress" style="height: 20px; background: linear-gradient(90deg, #FF8C00, #FFD700); border-radius: 10px; transition: width 0.3s ease; position: relative;">
+        <span class="progress-text" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: white; font-weight: bold; text-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+          {{ progress }}% اكتمل
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partie droite : Questions + Stats + Infos -->
+  <div class="game-right" style=" overflow-y: auto;">
+    <!-- Conteneur des questions -->
+    <div *ngIf="currentQuestion" class="question-container animate__animated animate__fadeIn" style="background: white; border-radius: 15px; padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 3px solid #0D50A8; margin-bottom: 15px;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
+        <i class="fas fa-question-circle" style="font-size: 1.5rem; color: #0D50A8;"></i>
+        <h3 style="margin: 0; color: #0D50A8; font-size: 1.2rem; font-family: 'Tajawal', sans-serif;">{{ currentQuestion.question }}</h3>
+      </div>
+      
+      <div class="options" style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+        <button *ngFor="let option of currentQuestion.options; let i = index" 
+                (click)="checkAnswer(option)"
+                [@optionAnimation]="{value: '', params: {delay: i * 100}}"
+                style="padding: 10px 15px; font-size: 1rem; background: linear-gradient(135deg, #1266D6, #0D50A8); color: white; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <span class="option-icon" style="font-size: 1.1rem;">
+            {{ ['A', 'B', 'C'][i] }}
+          </span>
+          {{ option }}
+        </button>
+      </div>
+
+      <!-- Statistiques compactes -->
+      <div class="stats" style="margin-top: 15px; background: rgba(239, 246, 255, 0.7); padding: 10px; border-radius: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; backdrop-filter: blur(5px);">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <i class="fas fa-tachometer-alt" style="font-size: 1.2rem; color: #FF8C00;"></i>
+          <div>
+            <p style="margin: 0; font-size: 0.8rem; color: #4A5568;">السرعة</p>
+            <p style="margin: 0; font-size: 1rem; font-weight: bold; color: #0D50A8;">{{ speed }} كم/س</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <i class="fas fa-route" style="font-size: 1.2rem; color: #4CAF50;"></i>
+          <div>
+            <p style="margin: 0; font-size: 0.8rem; color: #4A5568;">المسافة</p>
+            <p style="margin: 0; font-size: 1rem; font-weight: bold; color: #0D50A8;">{{ distance }} م</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <i class="fas fa-star" style="font-size: 1.2rem; color: #FFD700;"></i>
+          <div>
+            <p style="margin: 0; font-size: 0.8rem; color: #4A5568;">النقاط</p>
+            <p style="margin: 0; font-size: 1rem; font-weight: bold; color: #0D50A8;">{{ score }}</p>
+          </div>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <i class="fas fa-flag-checkered" style="font-size: 1.2rem; color: #FF8C00;"></i>
+          <div>
+            <p style="margin: 0; font-size: 0.8rem; color: #4A5568;">النقاط المطلوبة</p>
+            <p style="margin: 0; font-size: 1rem; font-weight: bold; color: #0D50A8;">{{ MINIMUM_WIN_SCORE }} نقطة</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructions compactes -->
+    <div class="instructions animate__animated animate__fadeIn" style="background: linear-gradient(135deg, #FFF3CD, #FFE69A); padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-left: 5px solid #FF8C00; margin-bottom: 15px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+        <i class="fas fa-info-circle" style="font-size: 1.5rem; color: #856404;"></i>
+        <h3 style="margin: 0; color: #856404; font-size: 1.1rem; font-family: 'Tajawal', sans-serif;">كيف تلعب ؟</h3>
+      </div>
+      <ul style="padding-left: 18px; margin: 0;">
+        <li style="margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; font-size: 0.9rem;">
+          <i class="fas fa-check-circle" style="color: #4CAF50; margin-top: 2px;"></i>
+          <span>اختر الإجابة الصحيحة بأسرع وقت</span>
+        </li>
+        <li style="margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; font-size: 0.9rem;">
+          <i class="fas fa-bicycle" style="color: #0D50A8; margin-top: 2px;"></i>
+          <span>الإجابة الصحيحة تسرع دراجتك!</span>
+        </li>
+        <li style="margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; font-size: 0.9rem;">
+          <i class="fas fa-trophy" style="color: #FFD700; margin-top: 2px;"></i>
+          <span>يجب أن تحصل على {{ MINIMUM_WIN_SCORE }} نقطة للفوز</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Récompenses compactes -->
+  
+</div>
+</div>
+
+<!-- Popup de félicitations -->
+<div *ngIf="gameOver && score >= MINIMUM_WIN_SCORE" class="congrats-popup" @fadeInOut style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px);">
+  <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 500px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative;">
+    <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: #FFD700; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+      <i class="fas fa-trophy" style="font-size: 2rem; color: white;"></i>
+    </div>
+    
+    <h2 style="color: #0D50A8; margin-top: 20px; font-size: 2rem; font-family: 'Tajawal', sans-serif;">مبروك! لقد فزت!</h2>
+    
+    <div style="margin: 20px 0; font-size: 1.2rem;">
+      <p style="margin-bottom: 10px;">🏁 لقد أكملت السباق بنجاح!</p>
+      <p style="font-size: 1.5rem; font-weight: bold; color: #FF8C00;">نقاطك: {{ score }}</p>
+    </div>
+    
+    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 30px;">
+      <button (click)="resetGame()" style="padding: 12px 30px; background: linear-gradient(135deg, #0D50A8, #1266D6); color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(13,80,168,0.3); display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-redo"></i> العب مرة أخرى
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Message d'encouragement -->
+<div *ngIf="showFeedback" class="feedback-message" @fadeInOut style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 15px 25px; border-radius: 50px; z-index: 1000; max-width: 80%; text-align: center; backdrop-filter: blur(5px);">
+  {{ feedbackMessage }}
+</div>
