@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 class Question {
   constructor(
@@ -47,7 +47,7 @@ export class BikeRaceComponent implements OnInit {
   @ViewChild('gameCanvas', { static: true }) gameCanvas!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
 
-  readonly MINIMUM_WIN_SCORE = 100; // Objectif de 100 points
+  readonly MINIMUM_WIN_SCORE = 100;
   speed: number = 10;
   distance: number = 0;
   score: number = 0;
@@ -65,7 +65,7 @@ export class BikeRaceComponent implements OnInit {
     { color: '#CD7F32' }
   ];
 
-  questions: Question[] = [
+  allQuestions: Question[] = [
     new Question('ما هو مستوى السكر الطبيعي في الدم؟', ['70-100 mg/dL', '120-150 mg/dL', '200-250 mg/dL'], '70-100 mg/dL'),
     new Question('ما هي الأعراض الشائعة لارتفاع السكر في الدم؟', ['العطش الشديد', 'الدوخة', 'كلا الاثنين'], 'كلا الاثنين'),
     new Question('ما هو الغذاء المناسب لمرضى السكري؟', ['الحلوى', 'الخضروات', 'المشروبات الغازية'], 'الخضروات'),
@@ -75,8 +75,30 @@ export class BikeRaceComponent implements OnInit {
     new Question('ما هو أحد المضاعفات المحتملة لمرض السكري؟', ['ضعف البصر', 'زيادة الوزن', 'نمو العضلات'], 'ضعف البصر'),
     new Question('ما هو المشروب الأكثر فائدة لمرضى السكري؟', ['الماء', 'العصير المحلى', 'المشروبات الغازية'], 'الماء'),
     new Question('كم مرة يجب على مريض السكري قياس نسبة السكر في الدم؟', ['يومياً', 'مرة في الشهر', 'لا يحتاج'], 'يومياً'),
-    new Question('أي من هذه العادات تساعد في التحكم بالسكري؟', ['تناول الحلويات يومياً', 'ممارسة الرياضة', 'السهر الطويل'], 'ممارسة الرياضة')
+    new Question('أي من هذه العادات تساعد في التحكم بالسكري؟', ['تناول الحلويات يومياً', 'ممارسة الرياضة', 'السهر الطويل'], 'ممارسة الرياضة'),
+    new Question('هل يمكن أن يأكل مريض السكري الخضروات؟', ['نعم', 'لا', 'أحياناً'], 'نعم'),
+    new Question('ماذا يحدث إذا أكل مريض السكري الكثير من السكر؟', ['يتحسن', 'قد يمرض', 'لا يحدث شيء'], 'قد يمرض'),
+    new Question('هل النوم الجيد مفيد لصحة مريض السكري؟', ['نعم', 'لا', 'ليس له علاقة'], 'نعم'),
+    new Question('ما هو أفضل وقت لممارسة الرياضة؟', ['قبل الأكل', 'بعد الأكل', 'أي وقت مناسب'], 'أي وقت مناسب'),
+    new Question('لماذا يجب على مريض السكري زيارة الطبيب؟', ['للتسلية', 'للحصول على علاج ونصائح', 'لشراء الحلوى'], 'للحصول على علاج ونصائح'),
+    new Question('هل العصير الطبيعي يحتوي على سكر؟', ['نعم', 'لا', 'قليل جداً'], 'نعم'),
+    new Question('ماذا يفعل الأنسولين؟', ['يساعد الجسم على استخدام السكر', 'يزيد السكر', 'ليس له وظيفة'], 'يساعد الجسم على استخدام السكر'),
+    new Question('هل الجلوس الطويل أمام التلفاز صحي؟', ['نعم', 'لا', 'يعتمد على البرنامج'], 'لا'),
+    new Question('هل الضحك مفيد للصحة؟', ['نعم', 'لا', 'غير معروف'], 'نعم'),
+    new Question('لماذا يجب غسل اليدين قبل فحص السكر؟', ['لأنها عادة جيدة', 'لتكون القراءة دقيقة', 'لأن الجهاز لا يعمل بدون ذلك'], 'لتكون القراءة دقيقة'),
+    new Question('هل من الجيد اللعب في الخارج؟', ['نعم', 'لا', 'فقط في الليل'], 'نعم'),
+    new Question('ما هي أفضل وجبة فطور لمريض السكري؟', ['كعك وشوكولاتة', 'بيض وخبز أسمر', 'لا يتناول فطوراً'], 'بيض وخبز أسمر'),
+    new Question('ماذا يجب أن يفعل الطفل إذا شعر بالتعب في المدرسة؟', ['يجلس بصمت', 'يخبر المعلم', 'يذهب للمنزل دون إذن'], 'يخبر المعلم'),
+    new Question('هل يوجد سكر في الخبز؟', ['نعم', 'لا', 'فقط في الخبز الحلو'], 'نعم'),
+    new Question('ما هو أفضل نشاط في العطلة؟', ['اللعب والنشاط البدني', 'الأكل والنوم فقط', 'مشاهدة التلفاز طوال اليوم'], 'اللعب والنشاط البدني'),
+    new Question('هل شرب الحليب مفيد لمريض السكري؟', ['نعم', 'لا', 'فقط في الليل'], 'نعم'),
+    new Question('هل يمكن لمريض السكري أن يعيش حياة طبيعية؟', ['نعم', 'لا', 'ربما'], 'نعم'),
+    new Question('هل قراءة الملصقات على الأطعمة مفيد؟', ['نعم', 'لا', 'لا أهمية له'], 'نعم'),
+    new Question('متى يجب غسل اليدين؟', ['بعد اللعب فقط', 'قبل الأكل وبعده', 'لا حاجة لذلك'], 'قبل الأكل وبعده'),
+    new Question('ما هو تأثير اللعب والحركة؟', ['يجعل الجسم نشيطاً', 'يسبب التعب فقط', 'لا يؤثر'], 'يجعل الجسم نشيطاً')
   ];
+
+  questions: Question[] = [];
 
   bikeX: number = 450;
   bikeY: number = 300;
@@ -87,9 +109,7 @@ export class BikeRaceComponent implements OnInit {
 
   ngOnInit(): void {
     this.ctx = this.gameCanvas.nativeElement.getContext('2d')!;
-    this.loadAssets();
-    this.loadNextQuestion();
-    this.drawGame(); // On initialise le dessin une seule fois
+    this.resetGame(); // Chargement initial
   }
 
   loadAssets(): void {
@@ -111,17 +131,19 @@ export class BikeRaceComponent implements OnInit {
 
   loadNextQuestion(): void {
     if (this.questions.length === 0) {
-      console.error('Aucune question disponible');
+      this.gameOver = true;
+      this.showTemporaryFeedback('🏁 انتهت جميع الأسئلة!');
       return;
     }
-    
+
     const randomIndex = Math.floor(Math.random() * this.questions.length);
+    const selected = this.questions.splice(randomIndex, 1)[0];
+
     this.currentQuestion = new Question(
-      this.questions[randomIndex].question,
-      [...this.questions[randomIndex].options],
-      this.questions[randomIndex].correctAnswer
+      selected.question,
+      [...selected.options],
+      selected.correctAnswer
     );
-    
     this.currentQuestion.shuffleOptions();
   }
 
@@ -131,27 +153,23 @@ export class BikeRaceComponent implements OnInit {
     this.isCorrect = this.currentQuestion.isCorrectAnswer(selectedAnswer);
 
     if (this.isCorrect) {
-      // Réponse correcte
       this.speed += 5;
       this.score += 10;
       this.correctAnswers++;
-      this.bikeX = Math.max(this.finishLineX, this.bikeX - 50); // Déplacement plus important
+      this.bikeX = Math.max(this.finishLineX, this.bikeX - 50);
       this.playSound('correct');
       this.showTemporaryFeedback('👍 أحسنت! إجابة صحيحة');
-      
-      // Vérifier si le joueur a gagné
       if (this.score >= this.MINIMUM_WIN_SCORE) {
         this.gameOver = true;
       }
     } else {
-      // Réponse incorrecte
       this.speed = Math.max(5, this.speed - 5);
-      this.score = Math.max(0, this.score - 5); // Le score ne peut pas devenir négatif
+      this.score = Math.max(0, this.score - 5);
       this.bikeX = Math.min(450, this.bikeX + 30);
       this.playSound('wrong');
       this.showTemporaryFeedback('❌ خطأ! حاول مرة أخرى');
     }
-    
+
     this.updateProgress();
     this.drawGame();
     this.loadNextQuestion();
@@ -160,10 +178,7 @@ export class BikeRaceComponent implements OnInit {
   showTemporaryFeedback(message: string): void {
     this.feedbackMessage = message;
     this.showFeedback = true;
-    
-    setTimeout(() => {
-      this.showFeedback = false;
-    }, 2000);
+    setTimeout(() => this.showFeedback = false, 2000);
   }
 
   playSound(type: 'correct' | 'wrong'): void {
@@ -183,19 +198,16 @@ export class BikeRaceComponent implements OnInit {
   drawGame(): void {
     this.ctx.clearRect(0, 0, 800, 400);
     this.ctx.drawImage(this.backgroundImage, 0, 0, 800, 400);
-    
-    // Ligne d'arrivée
+
     this.ctx.strokeStyle = this.score >= this.MINIMUM_WIN_SCORE ? 'green' : 'red';
     this.ctx.lineWidth = 5;
     this.ctx.beginPath();
     this.ctx.moveTo(this.finishLineX, 0);
     this.ctx.lineTo(this.finishLineX, 400);
     this.ctx.stroke();
-    
-    // Vélo
+
     this.ctx.drawImage(this.bikeImage, this.bikeX, this.bikeY, 80, 50);
-    
-    // Afficher le score
+
     this.ctx.fillStyle = 'black';
     this.ctx.font = '20px Arial';
     this.ctx.textAlign = 'right';
@@ -210,6 +222,8 @@ export class BikeRaceComponent implements OnInit {
     this.progress = 0;
     this.bikeX = 450;
     this.gameOver = false;
+    this.questions = [...this.allQuestions]; // Remplir la liste depuis le total
+    this.loadAssets();
     this.loadNextQuestion();
     this.drawGame();
   }

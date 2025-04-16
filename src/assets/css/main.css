@@ -482,7 +482,7 @@ a.boxed-btn, a.bordered-btn, a.cart-btn {
   color: #F28123;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 7px;
+  
 }
 
 .breadcrumb-text h1 {
@@ -1402,7 +1402,7 @@ html, body {
   color: #F28123;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 7px;
+  
   font-size: 15px;
 }
 

@@ -18,6 +18,7 @@ import { LearnComponent } from './learn/learn.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { FoodCalculatorComponent } from './food-calculator/food-calculator.component';
+import { MagazineComponent } from './magazine/magazine.component';
 
  const routes: Routes = [
   { path: '', component: AccueilComponent },
@@ -41,6 +42,7 @@ import { FoodCalculatorComponent } from './food-calculator/food-calculator.compo
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'foodCalculator', component: FoodCalculatorComponent },
+  { path: 'magazine', component: MagazineComponent },
 
   { path: '**', redirectTo: '' } // Redirection pour les routes inconnues
 ];

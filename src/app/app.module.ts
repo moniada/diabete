@@ -37,7 +37,8 @@ import { MazeGameComponent } from './maze-game/maze-game.component';
 import { LearnComponent } from './learn/learn.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
-import { FoodCalculatorComponent } from './food-calculator/food-calculator.component'; // <-- Ajouter MatSelectModule
+import { FoodCalculatorComponent } from './food-calculator/food-calculator.component';
+import { MagazineComponent } from './magazine/magazine.component'; // <-- Ajouter MatSelectModule
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { FoodCalculatorComponent } from './food-calculator/food-calculator.compo
     AboutComponent,
     ContactComponent,
     FoodCalculatorComponent,
+    MagazineComponent,
   ],
   imports: [
     // Modules Angular de base
