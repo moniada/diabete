@@ -12,15 +12,4 @@
   </div>
   
   <!-- BLOC LECTURE PDF EN GRAND -->
-  <div class="reader-wrapper">
-    <div class="page-viewer">
-      <img [src]="pages[currentPage]" alt="Page PDF" class="page-large" />
-    </div>
-  
-    <div class="controls">
-      <button (click)="prevPage()" [disabled]="currentPage === 0">السابق</button>
-      <span class="page-indicator">{{ currentPage + 1 }} / {{ pages.length }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === pages.length - 1">التالي</button>
-    </div>
-  </div>
   

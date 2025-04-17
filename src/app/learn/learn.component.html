@@ -1,5 +1,5 @@
 <!-- En-tête coloré -->
-<div class="breadcrumb-section breadcrumb-bg" style="z-index: revert; background: linear-gradient(293.2deg, #1266D6 15.63%, #0D50A8 91.91%);">
+<div class="breadcrumb-section breadcrumb-bg"   style="z-index: revert;background: linear-gradient(293.2deg, #77b0fb 15.63%, #0D50A8 91.91%);">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 offset-lg-2 text-center">
@@ -62,7 +62,18 @@
           <li>😊 لا تخف! مع الرعاية، يمكننا أن نعيش حياة جميلة!</li>
         </ul>
       </div>
-  
+      <div class="reader-wrapper">
+        <div class="page-viewer">
+          <img [src]="pages[currentPage]" alt="Page PDF" class="page-large" />
+        </div>
+      
+        <div class="controls">
+          <button (click)="prevPage()" [disabled]="currentPage === 0">السابق</button>
+          <span class="page-indicator">{{ currentPage + 1 }} / {{ pages.length }}</span>
+          <button (click)="nextPage()" [disabled]="currentPage === pages.length - 1">التالي</button>
+        </div>
+      </div>
+      
       <!-- تشجيع -->
       <div class="info-card text-center">
         <h3>👏 أنت بطل!</h3>
