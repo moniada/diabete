@@ -1,0 +1,62 @@
+/* Animations */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* Styles globaux */
+  .game-header {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 30px;
+  }
+  
+  .game-container {
+    font-family: 'Tajawal', sans-serif;
+    position: relative;
+  }
+  
+  /* Cartes */
+  .character-card, .game-card {
+    transition: transform 0.3s ease;
+  }
+  
+  .character-card:hover, .game-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Boutons */
+  button {
+    transition: all 0.3s;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  /* Input range personnalisé */
+  input[type="range"] {
+    height: 8px;
+    -webkit-appearance: none;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #0D50A8;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .game-header h1 {
+      font-size: 2rem !important;
+    }
+    
+    .character-card, .game-card {
+      margin-bottom: 20px;
+    }
+  }

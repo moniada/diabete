@@ -1,0 +1,4 @@
+<div *ngIf="isCorrect !== null">
+    <p *ngIf="isCorrect">تهانينا! تخمينك صحيح.</p>
+    <p *ngIf="!isCorrect">للأسف، تخمينك غير صحيح. الجواب الصحيح هو {{ correctAnswer }}.</p>
+  </div>

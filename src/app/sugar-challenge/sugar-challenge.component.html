@@ -1,0 +1,26 @@
+<div class="game-container">
+    <h2>تحدي قياس السكر</h2>
+  
+    <div class="choices">
+      <div class="foods">
+        <h3>اختر طعاماً</h3>
+        <div *ngFor="let food of foods" (click)="selectedFood = food" class="food-item">
+          {{ food.name }}
+        </div>
+      </div>
+      
+      <div class="activities">
+        <h3>اختر نشاطاً</h3>
+        <div *ngFor="let activity of activities" (click)="selectedActivity = activity" class="activity-item">
+          {{ activity.name }}
+        </div>
+      </div>
+    </div>
+  
+    <div class="result">
+      <button (click)="calculateSugar()">تخمين مستوى السكر</button>
+      <p>مستوى السكر المتوقع: {{ predictedSugar }}٪</p>
+      <button *ngIf="predictedSugar" (click)="giveReward()">احصل على مكافأتك</button>
+    </div>
+  </div>
+  

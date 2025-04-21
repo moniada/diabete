@@ -1,0 +1,119 @@
+<div class="breadcrumb-section" style="z-index: inherit;background: linear-gradient(293.2deg, #1266D6 15.63%, #0D50A8 91.91%);  position: relative;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="breadcrumb-text">
+          <p style="color: #FFA500; font-size: 1.2rem; font-weight: bold;">العب وتعلم</p>
+          <h1 style="color: white; font-size: 2.5rem; margin: 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">متاهة الصحة التفاعلية</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <img decoding="async" class="full-width" style="position: absolute; bottom: -8px;" src="https://www.dinolingo.com/wp-content/uploads/2024/11/section_1-top.svg" alt="forme blanche">
+</div>
+
+<div class="game-container" style="max-width: 1200px; margin: 40px auto; padding: 0 20px; direction: rtl;">
+  <!-- Écran de démarrage -->
+  <div *ngIf="!gameStarted" class="start-screen" style="text-align: center; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.1);">
+    <h2 style="color: #0D50A8;">مرحباً في متاهة الصحة!</h2>
+    <p style="color: #555; line-height: 1.6; margin: 20px 0;">ساعد البطل في الوصول إلى الهدف مع تجنب العقبات والإجابة على الأسئلة الصحية</p>
+    <button (click)="startGame()" style="background: linear-gradient(135deg, #FF8C00, #FFA500); color: white; border: none; padding: 12px 30px; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s;">
+      ابدأ اللعب
+    </button>
+  </div>
+
+  <!-- Interface de jeu -->
+  <div *ngIf="gameStarted" class="game-interface" style="display: flex; flex-wrap: wrap; gap: 30px;">
+    <!-- Labyrinthe -->
+    <div class="maze-container" style="flex: 1; min-width: 300px;">
+      <div class="maze" style="background: #EFF6FF; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        <div *ngFor="let row of mazeLayout; let y = index" class="row" style="display: flex;">
+          <div *ngFor="let cell of row; let x = index" class="cell"
+               [ngClass]="{
+                 'wall': cell === 1,
+                 'question': cell === 2,
+                 'goal': cell === 3,
+                 'player': playerPosition.x === x && playerPosition.y === y,
+                 'red': cell === 4
+               }"
+               style="width: 40px; height: 40px; margin: 2px; border-radius: 5px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Contrôles mobiles -->
+      <div class="mobile-controls" style="display: none; margin-top: 20px; justify-content: center;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <button (click)="movePlayer(0, -1)" class="control-btn" style="background: #0D50A8; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; margin: 5px; font-size: 1.2rem;">
+            ↑
+          </button>
+          <div>
+            <button (click)="movePlayer(-1, 0)" class="control-btn" style="background: #0D50A8; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; margin: 5px; font-size: 1.2rem;">
+              ←
+            </button>
+            <button (click)="movePlayer(1, 0)" class="control-btn" style="background: #0D50A8; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; margin: 5px; font-size: 1.2rem;">
+              →
+            </button>
+          </div>
+          <button (click)="movePlayer(0, 1)" class="control-btn" style="background: #0D50A8; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; margin: 5px; font-size: 1.2rem;">
+            ↓
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panneau de contrôle -->
+    <div class="control-panel" style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 20px;">
+      <!-- Question -->
+    <!-- Popup de question -->
+<div *ngIf="showQuestion && currentQuestion" class="question-modal">
+  <div class="question-modal-content">
+    <button class="close-modal" (click)="penalizePlayer()">×</button>
+    <h3>
+      <i class="fas fa-question-circle" style="color: #FF8C00; margin-left: 10px;"></i>
+      {{ currentQuestion.question }}
+    </h3>
+    <div class="question-modal-options">
+      <button *ngFor="let option of currentQuestion.options" 
+              (click)="handleAnswer(option)">
+        {{ option }}
+      </button>
+    </div>
+  </div>
+</div>
+      <!-- Statistiques -->
+      <div class="stats-card" style="background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        <h3 style="color: #0D50A8; margin-top: 0; display: flex; align-items: center;">
+          <i class="fas fa-chart-line" style="color: #FF8C00; margin-left: 10px;"></i>
+          إحصائيات اللعبة
+        </h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr ; gap: 15px; margin-top: 20px;">
+          <div style="background: #F5F9FF; padding: 15px; border-radius: 10px; text-align: center;">
+            <div style="font-size: 1.5rem;">⚡</div>
+            <div style="font-weight: bold; color: #0D50A8;">الطاقة</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #FF8C00;">{{ energy }}</div>
+          </div>
+          <div style="background: #F5F9FF; padding: 15px; border-radius: 10px; text-align: center;">
+            <div style="font-size: 1.5rem;">🏆</div>
+            <div style="font-weight: bold; color: #0D50A8;">النقاط</div>
+            <div style="font-size: 1.5rem; font-weight: bold; color: #FF8C00;">{{ score }}</div>
+          </div>
+        
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="instructions-card" style="background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+        <h3 style="color: #0D50A8; margin-top: 0; display: flex; align-items: center;">
+          <i class="fas fa-info-circle" style="color: #FF8C00; margin-left: 10px;"></i>
+          كيف تلعب؟
+        </h3>
+        <ul style="padding-right: 20px; color: #555; line-height: 1.8;">
+          <li style="margin-bottom: 10px;">✅ استخدم أسلواب الكيبورد أو الأزرار للتحرك</li>
+          <li style="margin-bottom: 10px;">❓ أجب على الأسئلة الصحية لكسب النقاط</li>
+          <li style="margin-bottom: 10px;">🎯 الوصول إلى المربع الأصفر لإنهاء المستوى</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
