@@ -216,7 +216,7 @@ export class MazeGameComponent implements OnInit {
 
   checkCell(): void {
     const cell = this.mazeLayout[this.playerPosition.y][this.playerPosition.x];
-    console.log(cell);
+
     switch (cell) {
       case 2: this.showRandomQuestion(); break;
       case 3: this.levelUp(); break;
@@ -227,8 +227,7 @@ export class MazeGameComponent implements OnInit {
   showRandomQuestion(): void {
     this.isQuestionActive = true;
     this.showQuestion = true;
-    console.log( this.isQuestionActive);
-    console.log( this.showQuestion);
+   
     this.currentQuestion = this.questions[Math.floor(Math.random() * this.questions.length)];
   }
 
