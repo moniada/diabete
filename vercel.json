@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "dist/mon-projet/browser",
+  "outputDirectory": "dist/mon-projet/browser/browser",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
