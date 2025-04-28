@@ -1,8 +1,15 @@
 {
-  "outputDirectory": "dist/mon-projet/browser/browser",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/mon-projet/browser/browser/**",
+      "use": "@vercel/static"
+    }
   ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
