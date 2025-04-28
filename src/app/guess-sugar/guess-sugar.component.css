@@ -4,30 +4,50 @@
   50% { transform: translateY(-10px); }
 }
 
-/* Styles globaux */
-.game-header {
-  position: relative;
-  overflow: hidden;
-  padding-bottom: 30px;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
+/* Styles globaux */
 .game-container {
   font-family: 'Tajawal', sans-serif;
   position: relative;
 }
 
-/* Cartes */
 .character-card, .game-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(13,80,168,0.1);
   transition: transform 0.3s ease;
+  height: 100%;
 }
 
 .character-card:hover, .game-card:hover {
   transform: translateY(-5px);
 }
 
+/* Bulle de conseil */
+.tip-bubble {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #FFF8F0;
+  border: 2px solid #FFA500;
+  border-radius: 15px;
+  padding: 15px 20px;
+  color: #0D50A8;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  animation: float 3s ease-in-out infinite;
+  z-index: 10;
+  max-width: 250px;
+}
+
 /* Boutons */
 button {
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 button:hover {
@@ -35,19 +55,71 @@ button:hover {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* Input range personnalisé */
-input[type="range"] {
-  height: 8px;
-  -webkit-appearance: none;
+.start-button, .submit-button {
+  background: linear-gradient(135deg, #0D50A8, #1266D6);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  width: 100%;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  background: #0D50A8;
-  border-radius: 50%;
-  cursor: pointer;
+.how-to-play-title {
+  color: #0D50A8;
+  border-bottom: 2px solid #FFA500;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.level-button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid;
+  font-weight: normal;
+}
+
+.level-button.low {
+  color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.level-button.normal {
+  color: #2196F3;
+  border-color: #2196F3;
+}
+
+.level-button.high {
+  color: #F44336;
+  border-color: #F44336;
+}
+
+.level-button.selected {
+  font-weight: bold;
+  background: #f0f8ff;
+}
+
+/* Feedback */
+.feedback-box {
+  margin: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s;
+  font-weight: bold;
+}
+
+.feedback-box.correct {
+  background: #E8F5E9;
+  color: #4CAF50;
+  border-right: 4px solid #4CAF50;
+}
+
+.feedback-box.wrong {
+  background: #FFEBEE;
+  color: #F44336;
+  border-right: 4px solid #F44336;
 }
 
 /* Responsive */
@@ -59,4 +131,36 @@ input[type="range"]::-webkit-slider-thumb {
   .character-card, .game-card {
     margin-bottom: 20px;
   }
+}
+.start-button {
+  background-color: #0D50A8;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.start-button:hover {
+  background-color: #08407A;
+}
+
+.victory-message {
+  animation: bounce 1s infinite alternate;
+}
+
+.feedback.correct {
+  color: green;
+  font-weight: bold;
+}
+
+.feedback.wrong {
+  color: red;
+  font-weight: bold;
+}
+
+.challenge, .choices, .actions {
+  margin-top: 20px;
 }

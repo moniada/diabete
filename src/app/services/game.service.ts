@@ -14,6 +14,7 @@ export interface Challenge {
   effect: number;
   imageUrl: string;
   emoji: string;
+  category?: 'food' | 'activity' | 'drink' | 'medical';
 }
 
 export interface GameLevel {
@@ -44,7 +45,7 @@ export class GameService {
     {
       name: 'نور',
       age: 9,
-      imageUrl: 'assets/img/characters/girls.jpg',
+      imageUrl: 'assets/img/characters/nour.png',
       baseSugarLevel: 88,
       mood: 'ذكية'
     }
@@ -56,35 +57,120 @@ export class GameService {
       simpleDescription: 'أكل قطعة كبيرة من الكعك 🍰',
       effect: 35,
       imageUrl: 'assets/img/challenges/cake.png',
-      emoji: '🍰'
+      emoji: '🍰',
+      category: 'food'
     },
     {
       description: 'مارس الرياضة',
       simpleDescription: 'لعب كرة القدم مع الأصدقاء ⚽',
       effect: -25,
       imageUrl: 'assets/img/challenges/soccer.png',
-      emoji: '⚽'
+      emoji: '⚽',
+      category: 'activity'
     },
     {
       description: 'تناول وجبة صحية',
       simpleDescription: 'أكل سلطة خضار لذيذة 🥗',
       effect: -15,
       imageUrl: 'assets/img/challenges/salad.png',
-      emoji: '🥗'
+      emoji: '🥗',
+      category: 'food'
     },
     {
       description: 'شرب عصير محلى',
       simpleDescription: 'شرب كوب من العصير 🧃',
       effect: 30,
       imageUrl: 'assets/img/challenges/juice.png',
-      emoji: '🧃'
+      emoji: '🧃',
+      category: 'drink'
     },
     {
       description: 'قفز على الترامبولين',
       simpleDescription: 'قفز على الترامبولين لمدة 20 دقيقة 🤸',
       effect: -20,
       imageUrl: 'assets/img/challenges/jump.png',
-      emoji: '🤸'
+      emoji: '🤸',
+      category: 'activity'
+    },
+    {
+      description: 'أكل الفواكه الطازجة',
+      simpleDescription: 'تناول موزة وحبة تفاح 🍎',
+      effect: 10,
+      imageUrl: 'assets/img/challenges/fruits.png',
+      emoji: '🍎',
+      category: 'food'
+    },
+    {
+      description: 'شرب الماء بكثرة',
+      simpleDescription: 'شرب لتر من الماء خلال ساعة 💧',
+      effect: -5,
+      imageUrl: 'assets/img/challenges/water.png',
+      emoji: '💧',
+      category: 'drink'
+    },
+    {
+      description: 'السباحة في المسبح',
+      simpleDescription: 'سباحة لمدة 30 دقيقة 🏊',
+      effect: -30,
+      imageUrl: 'assets/img/challenges/swimming.png',
+      emoji: '🏊',
+      category: 'activity'
+    },
+    {
+      description: 'تناول الشوكولاتة',
+      simpleDescription: 'أكل لوح شوكولاتة 🍫',
+      effect: 40,
+      imageUrl: 'assets/img/challenges/chocolate.png',
+      emoji: '🍫',
+      category: 'food'
+    },
+    {
+      description: 'ركوب الدراجة',
+      simpleDescription: 'تجولة بالدراجة لمدة 45 دقيقة 🚴',
+      effect: -35,
+      imageUrl: 'assets/img/challenges/biking.png',
+      emoji: '🚴',
+      category: 'activity'
+    },
+    {
+      description: 'شرب مشروب غازي',
+      simpleDescription: 'علبة كوكاكولا 🥤',
+      effect: 45,
+      imageUrl: 'assets/img/challenges/soda.png',
+      emoji: '🥤',
+      category: 'drink'
+    },
+    {
+      description: 'تمارين اليوجا',
+      simpleDescription: 'جلسة يوجا لمدة 20 دقيقة 🧘',
+      effect: -15,
+      imageUrl: 'assets/img/challenges/yoga.png',
+      emoji: '🧘',
+      category: 'activity'
+    },
+    {
+      description: 'أكل المعجنات',
+      simpleDescription: 'حبتان من الدونات 🍩',
+      effect: 50,
+      imageUrl: 'assets/img/challenges/donut.png',
+      emoji: '🍩',
+      category: 'food'
+    },
+    {
+      description: 'المشي السريع',
+      simpleDescription: 'مشي سريع لمدة 25 دقيقة 🚶',
+      effect: -25,
+      imageUrl: 'assets/img/challenges/walking.png',
+      emoji: '🚶',
+      category: 'activity'
+    },
+    {
+      description: 'حقنة أنسولين',
+      simpleDescription: 'أخذ جرعة أنسولين 💉',
+      effect: -60,
+      imageUrl: 'assets/img/challenges/insulin.png',
+      emoji: '💉',
+      category: 'medical'
     }
   ];
 
@@ -96,7 +182,6 @@ export class GameService {
 
   currentCharacter: Character | null = null;
   currentChallenge: Challenge | null = null;
-  userGuess: number | null = null;
   currentLevel: GameLevel = this.levels[0];
   score: number = 0;
   isPlaying: boolean = false;
@@ -116,19 +201,22 @@ export class GameService {
   nextRound(): void {
     this.currentCharacter = this.getRandomCharacter();
     this.currentChallenge = this.getRandomChallenge();
-    this.userGuess = null;
   }
 
-  checkGuess(guess: number): { isCorrect: boolean, correctValue: number } {
-    if (!this.currentChallenge) {
-      return { isCorrect: false, correctValue: 0 };
+  checkGuess(selectedLevel: string): { isCorrect: boolean, correctValue: string, actualLevel: number } {
+    if (!this.currentChallenge || !this.currentCharacter) {
+      return { isCorrect: false, correctValue: '', actualLevel: 0 };
     }
     
-    // Calculate correct value based on character base level and challenge effect
-    const correctValue = this.currentCharacter!.baseSugarLevel + this.currentChallenge.effect;
-    const tolerance = 10 / this.currentLevel.multiplier;
+    const sugarLevel = this.currentCharacter.baseSugarLevel + this.currentChallenge.effect;
+    const correctStatus = this.getSugarLevelStatus(sugarLevel);
     
-    const isCorrect = Math.abs(guess - correctValue) <= tolerance;
+    let correctValueText = '';
+    if (correctStatus === 'منخفض') correctValueText = 'low';
+    else if (correctStatus === 'طبيعي') correctValueText = 'normal';
+    else correctValueText = 'high';
+    
+    const isCorrect = selectedLevel === correctValueText;
     
     if (isCorrect) {
       const pointsEarned = Math.floor(10 * this.currentLevel.multiplier);
@@ -141,11 +229,11 @@ export class GameService {
       this.streak = 0;
     }
     
-    return { isCorrect, correctValue };
-  }
-
-  getSugarLevelRange(): { min: number, max: number } {
-    return { min: 50, max: 200 };
+    return { 
+      isCorrect, 
+      correctValue: correctStatus,
+      actualLevel: sugarLevel 
+    };
   }
 
   getSugarLevelStatus(level: number): string {
@@ -166,10 +254,5 @@ export class GameService {
     // Adjust effect based on level
     challenge.effect = Math.floor(challenge.effect * this.currentLevel.multiplier);
     return challenge;
-  }
-
-  getCurrentSugarLevel(): number {
-    if (!this.currentCharacter || !this.currentChallenge) return 0;
-    return this.currentCharacter.baseSugarLevel + this.currentChallenge.effect;
   }
 }

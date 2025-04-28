@@ -9,7 +9,7 @@ import { fadeIn } from '../animations';
   animations: [fadeIn], // Ajouter l'animation
 })
 export class ChallengeComponent {
-  userGuess: number | null = null;
+  userGuess: '' | null = null;
 
   constructor(public gameService: GameService) {}
 

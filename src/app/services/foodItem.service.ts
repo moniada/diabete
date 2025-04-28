@@ -51,7 +51,16 @@ export class FoodService {
 
     // Nuts
     { id: 27, name: 'لوز', sugarPer100g: 4.4, category: 'مكسرات', icon: 'fa-acorn', image: 'almonds.gif' },
-    { id: 28, name: 'جوز', sugarPer100g: 2.6, category: 'مكسرات', icon: 'fa-acorn', image: 'walnuts.jpg' }
+    { id: 28, name: 'جوز', sugarPer100g: 2.6, category: 'مكسرات', icon: 'fa-acorn', image: 'walnuts.jpg' },
+
+    { id: 29, name: 'شوكولاتة', sugarPer100g: 52, category: 'أطعمة سكرية', icon: 'fa-candy-cane', image: 'chocolate.png' },
+    { id: 30, name: 'حلوى', sugarPer100g: 70, category: 'أطعمة سكرية', icon: 'fa-candy-cane', image: 'candy.png' },
+    { id: 31, name: 'كيك', sugarPer100g: 40, category: 'أطعمة سكرية', icon: 'fa-birthday-cake', image: 'cake.avif' },
+    { id: 32, name: 'بسكويت محلى', sugarPer100g: 38, category: 'أطعمة سكرية', icon: 'fa-cookie-bite', image: 'biscuits.jpg' },
+    { id: 33, name: 'مشروب غازي', sugarPer100g: 10.6, category: 'أطعمة سكرية', icon: 'fa-glass-whiskey', image: 'soda.png' },
+    { id: 34, name: 'آيس كريم', sugarPer100g: 21, category: 'أطعمة سكرية', icon: 'fa-ice-cream', image: 'icecream.png' },
+    { id: 35, name: 'دونات', sugarPer100g: 45, category: 'أطعمة سكرية', icon: 'fa-donut', image: 'donuts.png' }
+ 
   ];
 
   private favorites: FoodItem[] = [];

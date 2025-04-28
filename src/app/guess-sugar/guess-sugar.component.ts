@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -6,41 +6,60 @@ import { GameService } from '../services/game.service';
   templateUrl: './guess-sugar.component.html',
   styleUrls: ['./guess-sugar.component.css']
 })
-export class GuessSugarComponent {
+export class GuessSugarComponent implements OnInit {
   feedbackMessage = '';
   isCorrect: boolean | null = null;
+  selectedLevel: string = '';
+  showFeedback: boolean = false;
+  showTip: boolean = true;
+  hasWon: boolean = false;
 
   constructor(public gameService: GameService) {}
 
-  startGame() {
-    this.gameService.startNewGame();
-    this.resetFeedback();
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.showTip = false;
+    }, 10000);
   }
 
-  submitGuess() {
-    if (this.gameService.userGuess === null) {
-      this.feedbackMessage = 'الرجاء إدخال تخمينك!';
+  startGame(): void {
+    this.gameService.startNewGame();
+    this.resetGameState();
+    this.hasWon = false;
+  }
+
+  submitGuess(): void {
+    if (!this.selectedLevel) {
+      this.feedbackMessage = 'الرجاء اختيار مستوى السكر!';
       this.isCorrect = false;
+      this.showFeedback = true;
       return;
     }
 
-    const result = this.gameService.checkGuess(this.gameService.userGuess);
+    const result = this.gameService.checkGuess(this.selectedLevel);
     this.isCorrect = result.isCorrect;
-    
-    if (this.isCorrect) {
-      this.feedbackMessage = `🎉 أحسنت! الجواب الصحيح: ${result.correctValue}`;
-    } else {
-      this.feedbackMessage = `❌ خطأ! الجواب الصحيح: ${result.correctValue}`;
-    }
+    this.feedbackMessage = this.getFeedbackMessage(result);
+    this.showFeedback = true;
 
     setTimeout(() => {
-      this.gameService.nextRound();
-      this.resetFeedback();
+      if (this.gameService.score >= 100) {
+        this.hasWon = true;
+      } else {
+        this.gameService.nextRound();
+        this.resetGameState();
+      }
     }, 2000);
   }
 
-  private resetFeedback() {
+  private getFeedbackMessage(result: { isCorrect: boolean, correctValue: string, actualLevel: number }): string {
+    const levelText = `المستوى الفعلي: ${result.actualLevel} (${result.correctValue})`;
+    return result.isCorrect ? `🎉 أحسنت! ${levelText}` : `❌ خطأ! ${levelText}`;
+  }
+
+  private resetGameState(): void {
     this.feedbackMessage = '';
     this.isCorrect = null;
+    this.selectedLevel = '';
+    this.showFeedback = false;
   }
 }
