@@ -34,7 +34,7 @@
               {
                 "glob": "**/*",
                 "input": "node_modules/phaser/dist",
-                "output": "/assets/phaser/"
+                "output": "assets/phaser/"
               }
             ],
             "styles": [
@@ -54,6 +54,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/",
               "budgets": [
                 {
                   "type": "initial",
