@@ -1,8 +1,0 @@
-{
-  "outputDirectory": "dist/mon-projet/browser/browser",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
-}
