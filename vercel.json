@@ -1,16 +1,18 @@
 {
-    "version": 2,
     "builds": [
       {
-        "src": "package.json",
-        "use": "@vercel/angular",
+        "src": "angular.json",
+        "use": "@vercel/static-build",
         "config": {
-          "outputDirectory": "dist/mon-projet/browser"
+          "distDir": "dist/mon-projet/browser"
         }
       }
     ],
     "routes": [
-      { "src": "/assets/(.*)", "dest": "/assets/$1" },
-      { "src": "/(.*)", "dest": "/index.html" }
+      {
+        "src": "/(.*)",
+        "dest": "/index.html"
+      }
     ]
   }
+  
