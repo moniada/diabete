@@ -60,8 +60,7 @@
           },
           "configurations": {
             "production": {
-             "baseHref": "/mon-projet/",
-
+              "baseHref": "/",
               "budgets": [
                 {
                   "type": "initial",
