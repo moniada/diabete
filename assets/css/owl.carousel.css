@@ -210,6 +210,7 @@
     -o-transition: opacity 400ms ease;
     transition: opacity 400ms ease;
   }
+  
   .owl-carousel .owl-video-frame {
     position: relative;
     z-index: 1;
